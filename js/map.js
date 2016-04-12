@@ -22,14 +22,23 @@ nexto.Map = function(elementId, width, height){
     this.element.style.height = height + "px";
 
     // set the size of the drawingBuffer
-
     this.element.width = width * this.devicePixelRatio;
     this.element.height = height * this.devicePixelRatio;
 
-    console.log('Device pixel: ',this.devicePixelRatio);
-
     this._createCanvas(elementId);
     this._setupPan(this.element);
+
+};
+
+nexto.Map.prototype.setSize = function(width, height){
+
+    // set the display size of the canvas.
+    this.element.style.width = width + "px";
+    this.element.style.height = height + "px";
+
+    // set the size of the drawingBuffer
+    this.element.width = width * this.devicePixelRatio;
+    this.element.height = height * this.devicePixelRatio;
 
 };
 
