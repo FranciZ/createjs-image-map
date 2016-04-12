@@ -13,7 +13,6 @@ gulp.task('build', function () {
     var _paths = [];
 
     return gulp.src([ './bower_components/EaselJS/lib/easeljs-0.8.2.min.js',
-            './bower_components/lodash/dist/lodash.core.min.js',
             './bower_components/PreloadJS/lib/preloadjs-0.6.2.min.js',
             './bower_components/hammerjs/hammer.min.js',
             './bower_components/gsap/src/minified/TweenLite.min.js',
