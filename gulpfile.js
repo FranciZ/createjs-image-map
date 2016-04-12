@@ -4,6 +4,7 @@ var domSrc = require('gulp-dom-src');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var cheerio = require('gulp-cheerio');
+var stripDebug = require('gulp-strip-debug');
 
 gulp.task('serve', serve('./'));
 
@@ -20,6 +21,7 @@ gulp.task('build', function () {
             './js/map.js' ]
         )
         .pipe(concat('map.full.min.js'))
+        .pipe(stripDebug())
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
 });
