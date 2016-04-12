@@ -1,0 +1,26 @@
+{
+  "name": "map-pan",
+  "authors": [
+    "FranciZ <franci@proxima.si>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "EaselJS": "easeljs#^0.8.2",
+    "lodash": "^4.9.0",
+    "PreloadJS": "^0.6.2",
+    "hammerjs": "^2.0.6",
+    "gsap": "greensock#^1.18.2",
+    "jquery": "^2.2.3"
+  }
+}

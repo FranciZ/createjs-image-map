@@ -1,0 +1,20 @@
+{
+  "name": "map-pan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cheerio": "^0.6.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-dom-src": "^0.2.0",
+    "gulp-serve": "^1.2.0",
+    "gulp-uglify": "^1.5.3"
+  },
+  "dependencies": {}
+}

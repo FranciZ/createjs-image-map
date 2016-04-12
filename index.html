@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map pan</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="bower_components/EaselJS/lib/easeljs-0.8.2.min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.core.min.js"></script>
+    <script src="bower_components/PreloadJS/lib/preloadjs-0.6.2.min.js"></script>
+    <script src="bower_components/hammerjs/hammer.min.js"></script>
+    <script src="bower_components/gsap/src/minified/TweenLite.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.slim.min.js"></script>
+
+</head>
+<body>
+
+<p id="zoom-in">Zoom in</p>
+<p id="zoom-out">Zoom out</p>
+<canvas id="map-canvas" width="1000" height="800"></canvas>
+
+<script src="js/marker.js"></script>
+<script src="js/map.js"></script>
+<script src="js/app.js" concat="false"></script>
+</body>
+</html>
