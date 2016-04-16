@@ -9,8 +9,7 @@ map.loadMarkers(['img/marker.png']);
 
 setTimeout(function(){
 
-    //map.clearMarkers();
-    //map.loadMap('img/map2.png');
+   map.destroy();
 
 }, 4000);
 

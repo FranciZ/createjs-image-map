@@ -48,76 +48,92 @@ nexto.Map.prototype.on = function(eventType, callback){
 
 };
 
+nexto.Map.prototype._onPan = function(ev){
+
+    var self = this;
+
+    var x = self._lastX + ev.deltaX * self.devicePixelRatio;
+    var y = self._lastY + ev.deltaY * self.devicePixelRatio;
+
+    if(self._isWithinBounds(x, y)) {
+
+        TweenLite.to(self.container, 0.1, {
+            x: x,
+            y: y
+        });
+
+    }
+
+};
+
+nexto.Map.prototype._onPanEnd = function(evt){
+
+    var self = this;
+
+    self._lastX = self.container.x;
+    self._lastY = self.container.y;
+
+};
+
+nexto.Map.prototype._onStageMouseMove = function(evt){
+
+    var self = this;
+
+    self._mouseX = evt.stageX;
+    self._mouseY = evt.stageY;
+
+};
+
+nexto.Map.prototype._onMouseWheel = function(evt){
+
+    var self = this;
+
+    var spinY = self._normalizeScroll(evt.originalEvent).spinY;
+
+    if(self._isWithinBounds(self.container.x, self.container.y)) {
+
+        self._zoom += spinY;
+
+        if (self._zoom > 0.5) {
+
+            self.container.setTransform(self._lastX, self._lastY, self._zoom, self._zoom, 0, 0, 0);
+
+        } else {
+            self._zoom = 0.5;
+        }
+
+        if (self._zoom < 3.5) {
+
+            self.container.setTransform(self._lastX, self._lastY, self._zoom, self._zoom, 0, 0, 0);
+
+
+        } else {
+
+            self._zoom = 3.5;
+
+        }
+
+        self._transformedWidth = self.container.getTransformedBounds().width;
+        self._transformedHeight = self.container.getTransformedBounds().height;
+
+        self.updateMarkerScale();
+
+    }
+
+};
+
 nexto.Map.prototype._setupPan = function(myElement){
 
     var self = this;
 
     this.hammertime = new Hammer(myElement);
-    this.hammertime.on('pan', function(ev) {
 
-        var x = self._lastX + ev.deltaX * self.devicePixelRatio;
-        var y = self._lastY + ev.deltaY * self.devicePixelRatio;
+    this.hammertime.on('pan', self._onPan.bind(this));
+    this.hammertime.on('panend', this._onPanEnd.bind(this));
 
-        if(self._isWithinBounds(x, y)) {
+    this.stage.addEventListener('stagemousemove', this._onStageMouseMove.bind(this));
 
-            TweenLite.to(self.container, 0.1, {
-                x: x,
-                y: y
-            });
-
-        }
-
-    });
-
-    this.hammertime.on('panend', function(ev){
-
-        self._lastX = self.container.x;
-        self._lastY = self.container.y;
-
-    });
-
-    this.stage.addEventListener('stagemousemove', function(evt){
-
-        self._mouseX = evt.stageX;
-        self._mouseY = evt.stageY;
-
-    });
-
-    $(this.element).on('mousewheel', function(evt){
-
-        var spinY = self._normalizeScroll(evt.originalEvent).spinY;
-
-        if(self._isWithinBounds(self.container.x, self.container.y)) {
-
-            self._zoom += spinY;
-
-            if (self._zoom > 0.5) {
-
-                self.container.setTransform(self._lastX, self._lastY, self._zoom, self._zoom, 0, 0, 0);
-
-            } else {
-                self._zoom = 0.5;
-            }
-
-            if (self._zoom < 3.5) {
-
-                self.container.setTransform(self._lastX, self._lastY, self._zoom, self._zoom, 0, 0, 0);
-
-
-            } else {
-
-                self._zoom = 3.5;
-
-            }
-
-            self._transformedWidth = self.container.getTransformedBounds().width;
-            self._transformedHeight = self.container.getTransformedBounds().height;
-
-            self.updateMarkerScale();
-
-        }
-
-    });
+    $(this.element).on('mousewheel', this._onMouseWheel.bind(this));
 
 };
 
@@ -162,6 +178,47 @@ nexto.Map.prototype._createCanvas = function(elementId){
 
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", this.stage);
+
+};
+
+nexto.Map.prototype.destroy = function(){
+
+    this.stage.enableDOMEvents(false);
+
+    createjs.Ticker.removeEventListener("tick", this.stage);
+    createjs.Ticker.reset();
+
+    _.each(this._markerAssets, function(marker){
+
+        marker = null;
+
+    });
+
+    this.hammertime.off('pan', self._onPan);
+    this.hammertime.off('panend', this._onPanEnd);
+
+    this.stage.removeEventListener('stagemousemove', this._onStageMouseMove);
+
+    $(this.element).off('mousewheel');
+
+    this._markerAssets = null;
+    this._mapAsset = null;
+
+};
+
+nexto.Map.prototype.getZoom = function(){
+
+    return this._zoom;
+
+};
+
+nexto.Map.prototype.setZoom = function(level){
+
+    var self = this;
+
+    self._zoom = level;
+
+    TweenLite.to(self.container, 0.1, {scaleX:self._zoom, scaleY:self._zoom});
 
 };
 
@@ -246,8 +303,7 @@ nexto.Map.prototype.loadMarkers = function(paths, cb){
 
 nexto.Map.prototype._onMarkerLoaded = function(evt){
 
-    console.log(evt);
-    this._markerAssets.push({ src:evt.item.src , img: evt.result});
+    this._markerAssets.push({ src:evt.item.src , img: evt.result, originalEvent:evt});
 
 };
 
@@ -263,7 +319,7 @@ nexto.Map.prototype.loadMap = function(path, cb){
 
 nexto.Map.prototype._onMapLoaded = function(evt){
 
-    this._mapAsset = { src:evt.item.src , img: evt.result};
+    this._mapAsset = { src:evt.item.src , img: evt.result, originalEvent:evt};
 
     if(evt.target.progress === 1){
         this._loadDone();
