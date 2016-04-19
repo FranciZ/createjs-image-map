@@ -2,6 +2,8 @@ var nexto = nexto?nexto:{};
 
 nexto.Marker = function(img, parent, zoom, rX, rY){
 
+    this.devicePixelRatio = window.devicePixelRatio || 1;
+
     this.parent = parent;
     this.rX = rX;
     this.rY = rY;
@@ -21,11 +23,11 @@ nexto.Marker.prototype.draw = function(){
 
     var marker = new createjs.Bitmap(this._img.img);
 
-    marker.scaleX = 0.5;
-    marker.scaleY = 0.5;
+    marker.scaleX = 0.5*this.devicePixelRatio;
+    marker.scaleY = 0.5*this.devicePixelRatio;
 
-    marker.x = -32/2;
-    marker.y = -32;
+    marker.x = -(32*this.devicePixelRatio)/2;
+    marker.y = -(32*this.devicePixelRatio);
 
     this.container = new createjs.Container();
 
