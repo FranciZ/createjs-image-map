@@ -428,15 +428,17 @@ nexto.Map.prototype.clearMarkers = function(){
 
 };
 
-nexto.Map.prototype.addMarker = function(markerPath, ratioX, ratioY){
+nexto.Map.prototype.addMarker = function(markerPath, ratioX, ratioY, width, height){
 
     var markerData = _.find(this._markerAssets, {src:markerPath});
 
-    var marker = new nexto.Marker(markerData, this.container, this._zoom, ratioX, ratioY);
+    var marker = new nexto.Marker(markerData, this.container, this._zoom, ratioX, ratioY, width, height);
 
     this.markers.push(marker);
 
     this.container.addChild(marker.container);
+
+    return marker;
 
 };
 

@@ -3,13 +3,15 @@
 var map = new nexto.Map('map-canvas', 600, 400);
 var hasMoved = false;
 var mouseDown = false;
+var marker;
 
 map.loadMap('img/map.jpg');
-map.loadMarkers(['img/marker.png']);
+map.loadMarkers(['img/marker.png','img/cup.png']);
 
 setTimeout(function(){
 
-   map.destroy();
+   //map.destroy();
+    marker.setImage('img/cup.png');
 
 }, 4000);
 
@@ -17,7 +19,7 @@ map.on('mapclick', function(evt){
 
     if(!hasMoved) {
         map.clearMarkers();
-        map.addMarker('img/marker.png', evt.ratio.x, evt.ratio.y);
+        marker = map.addMarker('img/cup.png', evt.ratio.x, evt.ratio.y);
     }
 
 });
