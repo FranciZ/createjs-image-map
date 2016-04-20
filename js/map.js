@@ -289,7 +289,7 @@ nexto.Map.prototype.zoomOut = function(){
 
 nexto.Map.prototype.loadMarkers = function(paths, cb){
 
-    var preload = new createjs.LoadQueue();
+    var preload = new createjs.LoadQueue(true, null, true);
 
     _.each(paths, function(path, i){
 
