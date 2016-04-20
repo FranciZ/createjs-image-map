@@ -19,7 +19,7 @@ map.on('mapclick', function(evt){
 
     if(!hasMoved) {
         map.clearMarkers();
-        marker = map.addMarker('img/cup.png', evt.ratio.x, evt.ratio.y);
+        marker = map.addMarker('img/marker.png', evt.ratio.x, evt.ratio.y);
     }
 
 });

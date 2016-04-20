@@ -44,20 +44,8 @@ nexto.Marker.prototype.draw = function(){
 
 nexto.Marker.prototype.setImage = function(img){
 
-    var marker = new createjs.Bitmap(img);
+    var newMarker = new createjs.Bitmap(img);
 
-    this._img = img;
-
-    this.container.removeChild(this.marker);
-
-    marker.scaleX = 0.5*this.devicePixelRatio;
-    marker.scaleY = 0.5*this.devicePixelRatio;
-
-    marker.x = -(32*this.devicePixelRatio)/2;
-    marker.y = -(32*this.devicePixelRatio);
-
-    this.container.addChild(marker);
-
-    this.marker = marker;
+    this.marker.image = newMarker.image;
 
 };
