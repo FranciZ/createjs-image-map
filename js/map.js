@@ -12,6 +12,7 @@ nexto.Map = function(elementId, width, height){
     this._markerAssets = [];
     this._mapAsset = null;
     this._eventListeners = [];
+    this._step = 0;
 
     this.markers = [];
 
@@ -305,6 +306,10 @@ nexto.Map.prototype._onMarkerLoaded = function(evt){
 
     this._markerAssets.push({ src:evt.item.src , img: evt.result, originalEvent:evt});
 
+    if(evt.target.progress === 1){
+        this._loadStep();
+    }
+
 };
 
 nexto.Map.prototype.loadMap = function(path, cb){
@@ -322,6 +327,16 @@ nexto.Map.prototype._onMapLoaded = function(evt){
     this._mapAsset = { src:evt.item.src , img: evt.result, originalEvent:evt};
 
     if(evt.target.progress === 1){
+        this._loadStep();
+    }
+
+};
+
+nexto.Map.prototype._loadStep = function(){
+
+    this._step++;
+
+    if(this._step === 2){
         this._loadDone();
     }
 
@@ -330,6 +345,18 @@ nexto.Map.prototype._onMapLoaded = function(evt){
 nexto.Map.prototype._loadDone = function(){
 
     this._draw(this._mapAsset.img);
+    
+    _.each(this._eventListeners, function(eventListener, i){
+
+        console.log(eventListener);
+
+        if(eventListener.type === 'onload') {
+
+            eventListener.cb(this);
+
+        }
+
+    });
 
 };
 
