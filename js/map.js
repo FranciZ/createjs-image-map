@@ -300,17 +300,19 @@ nexto.Map.prototype.loadMarkers = function(paths, cb){
 
     preload.addEventListener("fileload", this._onMarkerLoaded.bind(this));
 
+    console.log('Load markers');
+
 };
 
 nexto.Map.prototype._onMarkerLoaded = function(evt){
 
     this._markerAssets.push({ src:evt.item.src , img: evt.result, originalEvent:evt});
 
+    console.log('Markers progress: ',evt.target.progress);
+
     if(evt.target.progress === 1){
 
         _.each(this._eventListeners, function(eventListener, i){
-
-            console.log(eventListener);
 
             if(eventListener.type === 'markersloaded') {
 
