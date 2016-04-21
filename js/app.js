@@ -8,6 +8,12 @@ var marker;
 map.loadMap('img/map.jpg');
 map.loadMarkers(['img/marker.png','img/cup.png']);
 
+map.on('markersloaded', function(){
+
+    console.log('MARKERS LOADED');
+
+});
+
 setTimeout(function(){
 
    //map.destroy();
