@@ -327,7 +327,7 @@ nexto.Map.prototype._onMapLoaded = function(evt){
     this._mapAsset = { src:evt.item.src , img: evt.result, originalEvent:evt};
 
     if(evt.target.progress === 1){
-        this._loadStep();
+        this._loadDone();
     }
 
 };
@@ -345,7 +345,7 @@ nexto.Map.prototype._loadStep = function(){
 nexto.Map.prototype._loadDone = function(){
 
     this._draw(this._mapAsset.img);
-    
+
     _.each(this._eventListeners, function(eventListener, i){
 
         console.log(eventListener);
