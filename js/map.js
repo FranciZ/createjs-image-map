@@ -307,6 +307,19 @@ nexto.Map.prototype._onMarkerLoaded = function(evt){
     this._markerAssets.push({ src:evt.item.src , img: evt.result, originalEvent:evt});
 
     if(evt.target.progress === 1){
+
+        _.each(this._eventListeners, function(eventListener, i){
+
+            console.log(eventListener);
+
+            if(eventListener.type === 'markersloaded') {
+
+                eventListener.cb(this);
+
+            }
+
+        });
+
         this._loadStep();
     }
 
