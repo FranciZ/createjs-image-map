@@ -380,11 +380,14 @@ nexto.Map.prototype.centerTo = function(lat, lng){
 
     var computedSize = this._getComputedCenter(this.element.width, this.element.height);
 
-    var stageWidth = computedSize.width;
-    var stageHeight = computedSize.height;
+    var stageWidth = computedSize.width*(3-this.devicePixelRatio);
+    var stageHeight = computedSize.height*(3-this.devicePixelRatio);
 
-    var newX = stageWidth*this.devicePixelRatio+this._transformedWidth/2-stageWidth*this.devicePixelRatio/2-(this._transformedWidth*lat);
-    var newY = stageHeight*this.devicePixelRatio+this._transformedHeight/2-stageHeight*this.devicePixelRatio/2-(this._transformedHeight*lng);
+    var newX = stageWidth*this.devicePixelRatio+this._transformedWidth/2-stageWidth*2/2-(this._transformedWidth*lat);
+    var newY = stageHeight*this.devicePixelRatio+this._transformedHeight/2-stageHeight*2/2-(this._transformedHeight*lng);
+
+    console.log('Stage width:', stageWidth);
+    console.log('_transformedWidth:', this._transformedWidth);
 
     this._lastX = newX;
     this._lastY = newY;

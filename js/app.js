@@ -26,7 +26,10 @@ map.on('mapclick', function(evt){
     if(!hasMoved) {
         map.clearMarkers();
         marker = map.addMarker('img/marker.png', evt.ratio.x, evt.ratio.y);
+        map.centerTo(evt.ratio.x,evt.ratio.y);
     }
+
+
 
 });
 
@@ -50,7 +53,7 @@ $('#load-map').on('click', function(){
 
 $('#top-left').on('click', function(){
 
-    map.centerTo(0.7,0.7);
+    map.centerTo(0.5,0.5);
 
 });
 
