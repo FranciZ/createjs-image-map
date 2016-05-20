@@ -358,20 +358,22 @@ nexto.Map.prototype._loadStep = function(){
 };
 
 nexto.Map.prototype._loadDone = function(){
+    var self = this;
+    setTimeout(function(){
+        self._draw(self._mapAsset.img);
+        _.each(self._eventListeners, function(eventListener, i){
 
-    this._draw(this._mapAsset.img);
+            console.log(eventListener);
 
-    _.each(this._eventListeners, function(eventListener, i){
+            if(eventListener.type === 'onload') {
 
-        console.log(eventListener);
+                eventListener.cb(this);
 
-        if(eventListener.type === 'onload') {
+            }
 
-            eventListener.cb(this);
+        });
+    },1000);
 
-        }
-
-    });
 
 };
 
@@ -391,22 +393,29 @@ nexto.Map.prototype._draw = function(img){
 
     this.bitmap = new createjs.Bitmap(img);
 
+    console.log(img);
+
     var width = this.bitmap.getTransformedBounds().width;
     var height = this.bitmap.getTransformedBounds().height;
 
     this.bitmap.regX = width/2;
     this.bitmap.regY = height/2;
+
     this.container = new createjs.Container();
     this.container.addChild(this.bitmap);
     this.stage.addChild(this.container);
 
-    this._lastX = this.container.x = this.element.width/this.devicePixelRatio;
-    this._lastY = this.container.y = this.element.height/this.devicePixelRatio;
+    this._lastX = this.container.x = this.element.width*this.devicePixelRatio/2;
+    this._lastY = this.container.y = this.element.height*this.devicePixelRatio/2;
 
     this.container.scaleX = this.container.scaleY = this._zoom;
 
     this._transformedWidth = this.container.getTransformedBounds().width;
     this._transformedHeight = this.container.getTransformedBounds().height;
+
+    console.log('Bitmap width:', width);
+    console.log('Bitmap height:', height);
+
 
     this.container.addEventListener('click', function(evt){
 
@@ -425,6 +434,7 @@ nexto.Map.prototype._draw = function(img){
         var rX = ((left + mX)-left*2) / cW;
         var rY = ((top + mY)-top*2) / cH;
 
+
         _.each(self._eventListeners, function(eventListener, i){
 
             if(eventListener.type === 'mapclick') {
@@ -440,8 +450,7 @@ nexto.Map.prototype._draw = function(img){
 
         });
 
-        console.log('Bitmap width:', cX);
-        console.log('Bitmap height:', cY);
+
         console.log('cX:', cX);
         console.log('cY:', cY);
         console.log('mX:', mX);
