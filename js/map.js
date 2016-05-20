@@ -440,6 +440,8 @@ nexto.Map.prototype._draw = function(img){
 
         });
 
+        console.log('Bitmap width:', cX);
+        console.log('Bitmap height:', cY);
         console.log('cX:', cX);
         console.log('cY:', cY);
         console.log('mX:', mX);

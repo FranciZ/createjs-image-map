@@ -42,6 +42,12 @@ $('#zoom-out').on('click', function(){
 
 });
 
+$('#load-map').on('click', function(){
+
+    map.loadMap('http://nexto.io/images/map2.png');
+
+});
+
 $(document).on('mousemove', function(){
 
     if(mouseDown) {
