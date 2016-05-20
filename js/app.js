@@ -48,6 +48,12 @@ $('#load-map').on('click', function(){
 
 });
 
+$('#top-left').on('click', function(){
+
+    map.centerTo(0.7,0.7);
+
+});
+
 $(document).on('mousemove', function(){
 
     if(mouseDown) {

@@ -359,21 +359,49 @@ nexto.Map.prototype._loadStep = function(){
 
 nexto.Map.prototype._loadDone = function(){
     var self = this;
-    setTimeout(function(){
-        self._draw(self._mapAsset.img);
-        _.each(self._eventListeners, function(eventListener, i){
 
-            console.log(eventListener);
+    self._draw(self._mapAsset.img);
+    _.each(self._eventListeners, function(eventListener, i){
 
-            if(eventListener.type === 'onload') {
+        if(eventListener.type === 'onload') {
 
-                eventListener.cb(this);
+            eventListener.cb(this);
 
-            }
+        }
 
-        });
-    },1000);
+    });
 
+};
+
+nexto.Map.prototype.centerTo = function(lat, lng){
+
+    this._transformedWidth = this.container.getTransformedBounds().width;
+    this._transformedHeight = this.container.getTransformedBounds().height;
+
+    var computedSize = this._getComputedCenter(this.element.width, this.element.height);
+
+    var stageWidth = computedSize.width;
+    var stageHeight = computedSize.height;
+
+    var newX = stageWidth*this.devicePixelRatio+this._transformedWidth/2-stageWidth*this.devicePixelRatio/2-(this._transformedWidth*lat);
+    var newY = stageHeight*this.devicePixelRatio+this._transformedHeight/2-stageHeight*this.devicePixelRatio/2-(this._transformedHeight*lng);
+
+    this._lastX = newX;
+    this._lastY = newY;
+
+    TweenLite.to(this.container, 0.2, {x:newX, y:newY});
+
+};
+
+nexto.Map.prototype._getComputedCenter = function(_width, _height){
+
+    var width = _width*this.devicePixelRatio/(2*this.devicePixelRatio);
+    var height = _height*this.devicePixelRatio/(2*this.devicePixelRatio);
+
+    return {
+        width:width,
+        height:height
+    }
 
 };
 
@@ -393,8 +421,6 @@ nexto.Map.prototype._draw = function(img){
 
     this.bitmap = new createjs.Bitmap(img);
 
-    console.log(img);
-
     var width = this.bitmap.getTransformedBounds().width;
     var height = this.bitmap.getTransformedBounds().height;
 
@@ -405,17 +431,15 @@ nexto.Map.prototype._draw = function(img){
     this.container.addChild(this.bitmap);
     this.stage.addChild(this.container);
 
-    this._lastX = this.container.x = this.element.width*this.devicePixelRatio/(2*this.devicePixelRatio);
-    this._lastY = this.container.y = this.element.height*this.devicePixelRatio/(2*this.devicePixelRatio);
+    var computedSize = this._getComputedCenter(this.element.width, this.element.height);
+
+    this._lastX = this.container.x = computedSize.width;
+    this._lastY = this.container.y = computedSize.height;
 
     this.container.scaleX = this.container.scaleY = this._zoom;
 
     this._transformedWidth = this.container.getTransformedBounds().width;
     this._transformedHeight = this.container.getTransformedBounds().height;
-
-    console.log('Bitmap width:', width);
-    console.log('Bitmap height:', height);
-
 
     this.container.addEventListener('click', function(evt){
 
@@ -433,7 +457,6 @@ nexto.Map.prototype._draw = function(img){
 
         var rX = ((left + mX)-left*2) / cW;
         var rY = ((top + mY)-top*2) / cH;
-
 
         _.each(self._eventListeners, function(eventListener, i){
 
