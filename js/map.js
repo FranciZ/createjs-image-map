@@ -360,16 +360,18 @@ nexto.Map.prototype._loadStep = function(){
 nexto.Map.prototype._loadDone = function(){
     var self = this;
 
-    self._draw(self._mapAsset.img);
-    _.each(self._eventListeners, function(eventListener, i){
+    if(self._mapAsset && self._mapAsset !== undefined) {
+        self._draw(self._mapAsset.img);
+        _.each(self._eventListeners, function (eventListener, i) {
 
-        if(eventListener.type === 'onload') {
+            if (eventListener.type === 'onload') {
 
-            eventListener.cb(this);
+                eventListener.cb(this);
 
-        }
+            }
 
-    });
+        });
+    }
 
 };
 
