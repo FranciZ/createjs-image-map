@@ -405,8 +405,8 @@ nexto.Map.prototype._draw = function(img){
     this.container.addChild(this.bitmap);
     this.stage.addChild(this.container);
 
-    this._lastX = this.container.x = this.element.width*this.devicePixelRatio/2;
-    this._lastY = this.container.y = this.element.height*this.devicePixelRatio/2;
+    this._lastX = this.container.x = this.element.width*this.devicePixelRatio/(2*this.devicePixelRatio);
+    this._lastY = this.container.y = this.element.height*this.devicePixelRatio/(2*this.devicePixelRatio);
 
     this.container.scaleX = this.container.scaleY = this._zoom;
 
