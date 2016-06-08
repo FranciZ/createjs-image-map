@@ -36,7 +36,7 @@ nexto.Marker.prototype.draw = function(){
         this.container.x = self.rX * self.parent.getBounds().width - self.parent.getBounds().width / 2;
         this.container.y = self.rY * self.parent.getBounds().height - self.parent.getBounds().height / 2;
 
-    }
+    }       
 
     this.container.scaleX = this.container.scaleY = 1/self._zoom+((1-1/self._zoom)*0.1);
 

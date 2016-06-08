@@ -174,11 +174,17 @@ nexto.Map.prototype.updateMarkerScale = function(){
 
 nexto.Map.prototype._createCanvas = function(elementId){
 
+    var self = this;
+
     //Create a stage by getting a reference to the canvas
     this.stage = new createjs.Stage(elementId);
 
-    createjs.Ticker.setFPS(60);
-    createjs.Ticker.addEventListener("tick", this.stage);
+    setTimeout(function(){
+
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.addEventListener("tick", self.stage);
+
+    }, 0);
 
 };
 
