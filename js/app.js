@@ -24,12 +24,16 @@ setTimeout(function(){
 map.on('mapclick', function(evt){
 
     if(!hasMoved) {
-        map.clearMarkers();
+
         marker = map.addMarker('img/marker.png', evt.ratio.x, evt.ratio.y);
         map.centerTo(evt.ratio.x,evt.ratio.y);
     }
 
+});
 
+$('#clear').on('click', function(){
+
+    map.clearMarkers();
 
 });
 

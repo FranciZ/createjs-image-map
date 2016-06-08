@@ -504,12 +504,12 @@ nexto.Map.prototype.clearMarkers = function(){
 
     var self = this;
 
-    _.each(this.markers, function(marker, i){
+    var count = this.markers.length;
 
-        self.container.removeChild(marker.container);
-        self.markers.splice(i,1);
-
-    });
+    while(count--){
+        self.container.removeChild(this.markers[count].container);
+        self.markers.splice(count,1);
+    }
 
 };
 
