@@ -12,7 +12,9 @@ nexto.Marker = function(img, parent, zoom, rX, rY, width, height){
     this._img = img;
     this._zoom = zoom;
 
-    this.draw();
+    if(img) {
+        this.draw();
+    }
 
 };
 
@@ -20,6 +22,8 @@ nexto.Marker = function(img, parent, zoom, rX, rY, width, height){
 nexto.Marker.prototype.draw = function(){
 
     var self = this;
+
+
 
     var marker = new createjs.Bitmap(this._img.img);
 
@@ -36,13 +40,11 @@ nexto.Marker.prototype.draw = function(){
         this.container.x = self.rX * self.parent.getBounds().width - self.parent.getBounds().width / 2;
         this.container.y = self.rY * self.parent.getBounds().height - self.parent.getBounds().height / 2;
 
-    }       
+        this.container.scaleX = this.container.scaleY = 1/self._zoom+((1-1/self._zoom)*0.1);
+        this.container.addChild(marker);
+        this.marker = marker;
 
-    this.container.scaleX = this.container.scaleY = 1/self._zoom+((1-1/self._zoom)*0.1);
-
-    this.container.addChild(marker);
-
-    this.marker = marker;
+    }
 
 };
 

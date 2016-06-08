@@ -525,9 +525,10 @@ nexto.Map.prototype.addMarker = function(markerPath, ratioX, ratioY, width, heig
 
     var marker = new nexto.Marker(markerData, this.container, this._zoom, ratioX, ratioY, width, height);
 
-    this.markers.push(marker);
-
-    this.container.addChild(marker.container);
+    if(this.container) {
+        this.markers.push(marker);
+        this.container.addChild(marker.container);
+    }
 
     return marker;
 
